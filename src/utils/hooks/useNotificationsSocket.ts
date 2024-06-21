@@ -1,5 +1,4 @@
 import { ChatContext } from '@/contexts/chatContext'
-import { notification } from 'antd'
 import Cookies from 'js-cookie'
 import { useContext, useEffect, useState } from 'react'
 import { Socket, io } from 'socket.io-client'
@@ -9,7 +8,6 @@ export const useNotificationsSocket = () => {
   const [socket, setSocket] = useState<Socket | null>(null)
   const { users } = useGetAllUsersList()
   const { setIsOnline } = useContext(ChatContext)
-  const [api] = notification.useNotification()
 
   const URL = `${import.meta.env.VITE_APP_BASE_URL}/notifications`
   const userId = Cookies.get('userId')
@@ -17,7 +15,6 @@ export const useNotificationsSocket = () => {
   useEffect(() => {
     if (userId) {
       const newSocket = io(URL)
-      setSocket(newSocket)
 
       newSocket.on('connect', () => {
         if (userId) {
@@ -37,18 +34,14 @@ export const useNotificationsSocket = () => {
 
         newSocket.on('notification', (data) => {
           console.log(data)
-          api.info({
-            message: '',
-            description:
-              'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-            placement: 'bottomRight',
-          })
         })
 
         newSocket.on('error', (data) => {
           console.log(data)
         })
       })
+
+      setSocket(newSocket)
 
       return () => {
         newSocket.disconnect()
