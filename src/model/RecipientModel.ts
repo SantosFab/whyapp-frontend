@@ -3,6 +3,7 @@ export interface Recipient {
   nome?: string
   avatar?: string
   descricao?: string
+  isOnline?: boolean
 }
 
 export interface RecipientGroup {

@@ -12,8 +12,8 @@ export const ChatContext = createContext<{
   setRecipient: Dispatch<SetStateAction<Recipient | null>>
   recipientGroup: RecipientGroup | null
   setRecipientGroup: Dispatch<SetStateAction<RecipientGroup | null>>
-  isOnline: boolean
-  setIsOnline: Dispatch<SetStateAction<boolean>>
+  isOnline: Recipient[]
+  setIsOnline: Dispatch<SetStateAction<Recipient[]>>
 }>({
   messages: [],
   setMessages: () => {},
@@ -23,6 +23,6 @@ export const ChatContext = createContext<{
   setRecipient: () => {},
   recipientGroup: null,
   setRecipientGroup: () => {},
-  isOnline: false,
+  isOnline: [],
   setIsOnline: () => {},
 })
