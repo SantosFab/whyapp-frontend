@@ -15,6 +15,7 @@ export const ChatProvider = ({ children }: ChatProviderProps) => {
   const [recipientGroup, setRecipientGroup] = useState<RecipientGroup | null>(
     null,
   )
+  const [isOnline, setIsOnline] = useState(false)
 
   return (
     <ChatContext.Provider
@@ -27,6 +28,8 @@ export const ChatProvider = ({ children }: ChatProviderProps) => {
         setRecipient,
         recipientGroup,
         setRecipientGroup,
+        isOnline,
+        setIsOnline,
       }}
     >
       {children}
