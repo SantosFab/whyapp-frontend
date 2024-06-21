@@ -38,6 +38,7 @@ export const Aside = ({ openMainAside, setOpenMainAside }: AsideProps) => {
                   id: user.id,
                   nome: user.nome,
                   avatar: user.avatar,
+                  isOnline: user.isOnline,
                 })
                 setRecipientGroup(null)
               }}
