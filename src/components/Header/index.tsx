@@ -1,7 +1,8 @@
+import defaultAvatar from '@/assets/defaultAvatar.svg'
 import ProfileImage from '@/components/Profile/ProfileImage'
-import defaultAvatar from "@/assets/defaultAvatar.svg"
 import ProfileName from '@/components/Profile/ProfileName'
 import { ChatContext } from '@/contexts/chatContext'
+import { MenuOutlined } from '@ant-design/icons'
 import { Button, Flex } from 'antd'
 import { useContext, useState } from 'react'
 import { resetButtonStyles } from '../../mocks/mockUserArray'
@@ -9,7 +10,6 @@ import MenuInfo from '../MenuInfo'
 import ContactGroup from './components/GroupsContacts'
 import HeaderContainer from './components/HeaderContainer'
 import StatusContact from './components/statusgroups'
-import { MenuOutlined } from '@ant-design/icons'
 
 interface HeaderProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -18,7 +18,12 @@ interface HeaderProps {
   openMainAside: boolean
 }
 
-const HeaderChat = ({ setOpenModal, openModal, setOpenMainAside, openMainAside }: HeaderProps) => {
+const HeaderChat = ({
+  setOpenModal,
+  openModal,
+  setOpenMainAside,
+  openMainAside,
+}: HeaderProps) => {
   const { recipient, recipientGroup } = useContext(ChatContext)
   const [profileInfoMenuOpen, setprofileInfoMenuOpen] = useState(false)
   const onCloseMenu = () => {
@@ -26,18 +31,16 @@ const HeaderChat = ({ setOpenModal, openModal, setOpenMainAside, openMainAside }
   }
   return (
     <HeaderContainer>
-      {
-        !openMainAside && (
-          <MenuOutlined 
-            onClick={() => setOpenMainAside(!openMainAside)}
-            style={{  
-              color: 'white',
-              fontSize: '1.5rem',
-            }}
-      />
-        )
-      }
-      
+      {!openMainAside && (
+        <MenuOutlined
+          onClick={() => setOpenMainAside(!openMainAside)}
+          style={{
+            color: 'white',
+            fontSize: '1.5rem',
+          }}
+        />
+      )}
+
       <Flex
         align="center"
         style={{
@@ -55,7 +58,10 @@ const HeaderChat = ({ setOpenModal, openModal, setOpenMainAside, openMainAside }
               }}
               onClick={() => setprofileInfoMenuOpen(true)}
             >
-              <ProfileImage size={'45px'} image={recipient?.avatar || defaultAvatar} />
+              <ProfileImage
+                size={'45px'}
+                image={recipient?.avatar || defaultAvatar}
+              />
             </Button>
             <div
               onClick={() => setprofileInfoMenuOpen(true)}
@@ -63,7 +69,7 @@ const HeaderChat = ({ setOpenModal, openModal, setOpenMainAside, openMainAside }
             >
               <Flex vertical gap={4}>
                 <ProfileName name={recipient?.nome ?? 'Sem nome'} />
-                <StatusContact status="online" />
+                <StatusContact />
               </Flex>
             </div>
           </>
@@ -78,7 +84,10 @@ const HeaderChat = ({ setOpenModal, openModal, setOpenMainAside, openMainAside }
               }}
               onClick={() => setprofileInfoMenuOpen(true)}
             >
-              <ProfileImage size={'45px'} image={recipientGroup?.foto || defaultAvatar} />
+              <ProfileImage
+                size={'45px'}
+                image={recipientGroup?.foto || defaultAvatar}
+              />
             </Button>
             <div
               onClick={() => setprofileInfoMenuOpen(true)}
