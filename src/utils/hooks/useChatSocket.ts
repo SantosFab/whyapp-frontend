@@ -1,5 +1,7 @@
+import { apiFunction } from '@/api/api'
 import { ChatContext } from '@/contexts/chatContext'
 import { Message } from '@/model/MessageModel'
+import { useQuery } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 import { useContext, useEffect, useState } from 'react'
 import { Socket, io } from 'socket.io-client'
@@ -12,6 +14,26 @@ export const useChatSocket = () => {
   const URL = `${import.meta.env.VITE_APP_BASE_URL}/private-chats`
   const userId = Cookies.get('userId')
   const recipientId = recipient?.id
+
+  const {
+    data: privateMessagesData,
+    isLoading: privateMessagesLoading,
+    error: privateMessagesError,
+  } = useQuery<Message[]>({
+    queryKey: ['private-messages', recipientId],
+    queryFn: () => apiFunction.getPrivateMessage({ id: recipientId }),
+    enabled: !!recipientId,
+  })
+
+  useEffect(() => {
+    if (privateMessagesData) {
+      setMessages(privateMessagesData)
+    }
+
+    if (!privateMessagesData) {
+      setMessages([])
+    }
+  }, [privateMessagesData])
 
   useEffect(() => {
     if (userId && recipientId) {
@@ -27,27 +49,22 @@ export const useChatSocket = () => {
       })
 
       newSocket.on('connect', () => {
-        if (newChatId) {
-          newSocket.emit('join private', newChatId)
-          newSocket.emit('getMessages', newChatId)
+        if (recipientId) {
+          newSocket.emit('join private', recipientId)
         }
-      })
 
-      newSocket.on('messages', (messages: Message[]) => {
-        setMessages(messages)
-      })
+        newSocket.on('newMessage', (newMessage: Message) => {
+          setMessages((previousMessages) => {
+            const messageExists = previousMessages.some(
+              (message) => message.id === newMessage.id,
+            )
 
-      newSocket.on('newMessage', (newMessage: Message) => {
-        setMessages((previousMessages) => {
-          const messageExists = previousMessages.some(
-            (message) => message.id === newMessage.id,
-          )
+            if (messageExists) {
+              return previousMessages
+            }
 
-          if (messageExists) {
-            return previousMessages
-          }
-
-          return [...previousMessages, newMessage]
+            return [...previousMessages, newMessage]
+          })
         })
       })
 
@@ -59,5 +76,11 @@ export const useChatSocket = () => {
     }
   }, [recipient])
 
-  return { socket, chatId, userId }
+  return {
+    socket,
+    chatId,
+    userId,
+    privateMessagesLoading,
+    privateMessagesError,
+  }
 }

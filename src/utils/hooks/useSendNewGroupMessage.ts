@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useGroupChatSocket } from './useGroupChatSocket'
 
 export const SendNewGroupMessage = () => {
-  const { socket } = useGroupChatSocket()
+  const { socket, userId, recipientGroupId } = useGroupChatSocket()
   const queryClient = useQueryClient()
 
   const sendNewGroupMessageMutation = useMutation({
@@ -18,7 +18,11 @@ export const SendNewGroupMessage = () => {
     },
     onSuccess: (response) => {
       if (socket && socket.connected) {
-        socket.emit('newGroupMessage', response?.data.data.id)
+        socket.emit('newGroupMessage', {
+          messageId: response?.data.data.id,
+          userId,
+          recipientId: recipientGroupId,
+        })
       }
 
       queryClient.invalidateQueries({ queryKey: ['group-messages'] })
