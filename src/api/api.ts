@@ -2,12 +2,16 @@ import axios from 'axios'
 import removeFriend from './delete/removeFriend'
 import getGroupMessage from './get/getGroupMessage'
 import getMyProfileInfo from './get/getMyProfileInfo'
+import getPrivateMessage from './get/getPrivateMessage'
 import getUser from './get/getUser'
 import getFriendsList from './get/getUserFriends'
 import getUserGroups from './get/getUserGroups'
 import addFriend from './post/addFriend'
+import addMemberToGroup from './post/addMemberToGroup'
 import createGroup from './post/createGroup'
+import dynamicNotifications from './post/dynamicNotifications'
 import newFriendGroup from './post/newFriendGroup'
+import removeMemberFromGroup from './post/removeMemberFromGroup'
 import removeMembersGroup from './post/removeMembersGroup'
 import sendNewGroupMessage from './post/sendNewGroupMessage'
 import updateMyPassword from './post/updateMyPassword'
@@ -22,11 +26,15 @@ export const apiFunction = {
   updateMyProfileInfo,
   addFriend,
   removeFriend,
+  newFriendGroup,
+  removeMembersGroup,
+  getPrivateMessage,
   updateMyPassword,
   createGroup,
   getUserGroups,
   sendNewGroupMessage,
   getGroupMessage,
-  newFriendGroup,
-  removeMembersGroup,
+  addMemberToGroup,
+  removeMemberFromGroup,
+  dynamicNotifications,
 }

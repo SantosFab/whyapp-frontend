@@ -1,8 +1,9 @@
 export interface Recipient {
-  id: string
+  id?: string
   nome?: string
   avatar?: string
   descricao?: string
+  isOnline?: boolean
 }
 
 export interface RecipientGroup {

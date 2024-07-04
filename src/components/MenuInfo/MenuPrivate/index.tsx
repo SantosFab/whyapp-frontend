@@ -1,9 +1,11 @@
+import defaultAvatar from '@/assets/defaultAvatar.svg'
 import ProfileImage from '@/components/Profile/ProfileImage'
-import defaultAvatar from "@/assets/defaultAvatar.svg"
-import { Recipient } from '@/model/RecipientModel'
-import { Icon } from '@iconify/react'
+import { ChatContext } from '@/contexts/chatContext'
+import { useRecipientOnlineStatus } from '@/utils/hooks/useRecipientOnlineStatus'
 import { UserOutlined } from '@ant-design/icons'
+import { Icon } from '@iconify/react'
 import { Flex } from 'antd'
+import { useContext } from 'react'
 import { ButtonRemove } from '../components/ButtonRemove'
 import { DescriptionUsers } from '../components/DescriptionUser'
 import ProfileName from '../components/ProfileName'
@@ -15,14 +17,13 @@ import {
 } from '../styles/style'
 
 interface MenuInfoPrivateProps {
-  recipient: Recipient
   onClose: () => void
 }
 
-export const MenuPrivateUSer = ({
-  onClose,
-  recipient,
-}: MenuInfoPrivateProps) => {
+export const MenuPrivateUSer = ({ onClose }: MenuInfoPrivateProps) => {
+  const { recipient } = useContext(ChatContext)
+  const { recipientOnlineStatus } = useRecipientOnlineStatus()
+
   return (
     <Flex vertical style={containerMenuStyle}>
       <div
@@ -32,8 +33,9 @@ export const MenuPrivateUSer = ({
           top: '12px',
           left: '12px',
           cursor: 'pointer',
-          padding: '4px'
-        }}>
+          padding: '4px',
+        }}
+      >
         <Icon
           icon="mdi:close"
           style={{
@@ -46,24 +48,22 @@ export const MenuPrivateUSer = ({
       </div>
       <Flex vertical style={imageProfileStyle}>
         <ProfileImage
-          image={recipient.avatar || defaultAvatar}
-          key={recipient.nome}
+          image={recipient?.avatar || defaultAvatar}
+          key={recipient?.nome}
           size="150px"
         />
         <Flex align="center" vertical gap={8}>
-          <ProfileName>{recipient.nome}</ProfileName>
+          <ProfileName>{recipient?.nome}</ProfileName>
           <div style={stutusProfileStyle}>
             <UserOutlined style={{ color: 'white' }} />
-            <p style={{ color: 'white' }}>{recipient ? 'online' : 'offline'}</p>
+            <p style={{ color: 'white' }}>
+              {recipientOnlineStatus ? 'online' : 'offline'}
+            </p>
           </div>
         </Flex>
       </Flex>
-      <DescriptionUsers description={recipient.descricao} />
-      <Flex
-        vertical
-        align="center"
-        gap={0}
-      >
+      <DescriptionUsers description={recipient?.descricao} />
+      <Flex vertical align="center" gap={0}>
         <SilenceNotifications />
         <ButtonRemove onClose={onClose} />
       </Flex>

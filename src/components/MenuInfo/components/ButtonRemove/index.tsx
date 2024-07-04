@@ -19,10 +19,13 @@ export const ButtonRemove = ({ onClose }: ButtonRemoveProps) => {
       style={buttonRemoveStyle}
       onClick={() => {
         if (recipient && userId) {
-          removeFriendMutation.mutate({
-            userId,
-            friendId: recipient.id,
-          })
+          const friendId = recipient.id
+          if (friendId) {
+            removeFriendMutation.mutate({
+              userId,
+              friendId,
+            })
+          }
         }
         setRecipient(null)
         onClose()

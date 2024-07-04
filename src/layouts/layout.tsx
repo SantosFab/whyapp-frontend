@@ -9,16 +9,18 @@ import { Welcome } from '@/components/Welcome'
 import { ChatBackgroundContext } from '@/contexts/chatBackgroundContext'
 import { ChatContext } from '@/contexts/chatContext'
 import styles from '@/pages/App/app.module.css'
+import { useNotificationsSocket } from '@/utils/hooks/useNotificationsSocket'
+import { MenuOutlined } from '@ant-design/icons'
 import { Flex } from 'antd'
 import Cookies from 'js-cookie'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MenuOutlined } from '@ant-design/icons'
 
 export const AppLayout = () => {
   const token = Cookies.get('token')
   const userId = Cookies.get('userId')
   const navigate = useNavigate()
+  useNotificationsSocket()
 
   if (!token || !userId) {
     navigate('/login')
@@ -38,11 +40,12 @@ export const AppLayout = () => {
           : styles.chat__welcomeMessageBackground
       }
     >
-    {
-      openMainAside && (
-        <Aside openMainAside={openMainAside} setOpenMainAside={setOpenMainAside} />
-      )
-    }
+      {openMainAside && (
+        <Aside
+          openMainAside={openMainAside}
+          setOpenMainAside={setOpenMainAside}
+        />
+      )}
       <MenuGroup />
       {recipient || recipientGroup ? (
         <Flex vertical style={{ height: '100dvh' }} flex={1}>
@@ -76,25 +79,23 @@ export const AppLayout = () => {
         </Flex>
       ) : (
         <>
-        {
-          !openMainAside && (
+          {!openMainAside && (
             <>
-               <MenuOutlined
+              <MenuOutlined
                 onClick={() => setOpenMainAside(!openMainAside)}
-                style={{  
+                style={{
                   color: 'white',
                   fontSize: '1.5rem',
                   position: 'fixed',
-                  top: "0",
-                  padding: '20px',  
-                  zIndex: 1000,  
-                  cursor: 'pointer' 
+                  top: '0',
+                  padding: '20px',
+                  zIndex: 1000,
+                  cursor: 'pointer',
                 }}
               />
             </>
-          )
-        }
-        <Welcome />
+          )}
+          <Welcome />
         </>
       )}
     </Flex>

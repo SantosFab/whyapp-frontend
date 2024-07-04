@@ -79,9 +79,7 @@ const MenuInfo = ({
         getContainer={document.body}
         style={menuContainer}
       >
-        {recipient && (
-          <MenuPrivateUSer recipient={recipient} onClose={onClose} />
-        )}
+        {recipient && <MenuPrivateUSer onClose={onClose} />}
         {recipientGroup && (
           <MenuInfoGroup
             recipientGroup={recipientGroup}
