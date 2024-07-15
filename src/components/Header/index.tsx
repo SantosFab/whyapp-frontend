@@ -32,15 +32,15 @@ const HeaderChat = ({
   }
 
   useEffect(() => {
-    function name(event: KeyboardEvent) {
+    function onUsePressEscSetRecipientNull(event: KeyboardEvent) {
       if (event.key === 'Escape' || event.key === 'Esc') {
         setRecipient(null)
         setRecipientGroup(null)
       }
     }
-    window.addEventListener('keydown', name)
+    window.addEventListener('keydown', onUsePressEscSetRecipientNull)
     return () => {
-      window.removeEventListener('keydown', name)
+      window.removeEventListener('keydown', onUsePressEscSetRecipientNull)
     }
   }, [setRecipient, setRecipientGroup])
 
