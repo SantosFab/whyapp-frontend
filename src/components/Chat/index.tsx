@@ -13,10 +13,12 @@ import ChatBubble from '../ChatBubble'
 import GroupChatBubble from '../ChatBubble/GroupChatBubble'
 import './styles.css'
 import { useStateSearch } from '@/reducer/context/search/searchContext'
+import { useStateMessages } from '@/reducer/context/messages/messagesContext'
 
 export const Chat = () => {
   const [tokenExpired, setTokenExpired] = useState(false)
-  const { recipient, messages, groupMessages } = useContext(ChatContext)
+  const { recipient } = useContext(ChatContext)
+  const { messages, groupMessages } = useStateMessages()
   const { userId } = useChatSocket()
   const { recipientGroupId } = useGroupChatSocket()
 
