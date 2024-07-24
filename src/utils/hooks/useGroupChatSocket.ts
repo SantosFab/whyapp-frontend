@@ -1,14 +1,14 @@
 import { apiFunction } from '@/api/api'
-import { ChatContext } from '@/contexts/chatContext'
 import { GroupMessage } from '@/model/GroupMessageModel'
 import { useDispatchMessages } from '@/reducer/context/messages/messagesContext'
+import { useStateRecipient } from '@/reducer/context/recipient/recipientContext'
 import { useQuery } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Socket, io } from 'socket.io-client'
 
 export const useGroupChatSocket = () => {
-  const { recipientGroup } = useContext(ChatContext)
+  const { recipientGroup } = useStateRecipient()
   const { setGroupMessages, setGroupMessagesArray } = useDispatchMessages()
   const [socket, setSocket] = useState<Socket | null>(null)
 
