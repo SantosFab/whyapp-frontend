@@ -6,13 +6,9 @@ export const ChatContext = createContext<{
   setRecipient: Dispatch<SetStateAction<Recipient | null>>
   recipientGroup: RecipientGroup | null
   setRecipientGroup: Dispatch<SetStateAction<RecipientGroup | null>>
-  isOnline: Recipient[]
-  setIsOnline: Dispatch<SetStateAction<Recipient[]>>
 }>({
   recipient: null,
   setRecipient: () => {},
   recipientGroup: null,
   setRecipientGroup: () => {},
-  isOnline: [],
-  setIsOnline: () => {},
 })
