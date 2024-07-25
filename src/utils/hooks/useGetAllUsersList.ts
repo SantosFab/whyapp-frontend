@@ -26,12 +26,13 @@ export const useGetAllUsersList = () => {
       status: 'usersListLoading',
       message: 'Carregando...',
       users: undefined,
+      usersListLoading: true,
     }
   if (usersError)
     return {
       status: 'error',
       message: 'Ocorreu um erro ao buscar os usuários da sua lista',
-      users: undefined,
+      usersListError: true,
     }
 
   return users
